@@ -13,15 +13,15 @@ Simple use of case in Knit:
 ```lua
 local MyService = Knit.CreateService({
     Name = "MyService",
-    Journal = Journal.new("MyService")
+    Reporter = Journal.new("MyService")
 })
 
 function MyService:KnitInit()
-    local Journal = self.Journal :: typeof(Journal.new())
-    local GreetCtx = Journal:useContext("greet")
+    local Reporter = self.Journal :: typeof(Journal.new())
+    local GreetCtx = Reporter:useContext("greet")
 
     GreetCtx:atLog("Hello there!") --> [MyService] :: log(greet) -> Hello there!
-    Journal:atLog("Hello Journals!") --> [MyService] :: log -> Hello Journals!
+    Repoter:atLog("Hello Journals!") --> [MyService] :: log -> Hello Journals!
 end
 ```
 
@@ -50,12 +50,17 @@ local App = Journal.new("App")
 App:atLog("Hello, World") --> [App] :: log -> Hello, World
 ```
 
-2. Using `Journal.new(JournalId: string, Schema: string?)` returns `self`
+2. Using `Journal.new(JournalId: string?, Schema: string?)` returns `self`
 
 For example:
 
 ```lua
 local App = Journal.new("App")
+
+-- if you don't give out the JournalId, it automatically defaults to `Journal`
+local Strange = Journal.new()
+
+Strange:atLog("Hi?") --> [Journal] :: log -> Hi?
 ```
 
 3. Using `Journal:atDebug(Message: string)`

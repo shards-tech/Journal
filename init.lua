@@ -53,12 +53,12 @@ end
     App:atLog("Hello, World!") --> [App] :: log -> Hello, World!
     ```
 ]=]
-function Journal.new(JournalId: string, Schema: string?)
+function Journal.new(JournalId: string?, Schema: string?)
     assert(typeof(JournalId) == "string", "JournalId must be a string.")
 
     local self = setmetatable({}, Journal)
 
-    self.JournalId = JournalId
+    self.JournalId = JournalId or "Journal"
     self.Schema = Schema or Journal.Schema
     self.State = true
 
