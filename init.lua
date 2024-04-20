@@ -22,7 +22,7 @@ local function FormatMessage(JournalId: string, LogLevel: string, Message: strin
     local Level: string = nil
 
     if Context ~= nil and typeof(Context) == "string" then
-        Level = string.format("%s(%s)", LogLevel, Context)
+        Level = string.format("%s(%s)", LogLevel, string.lower(Context))
     end
 
     local Formed = string.format(Schema, JournalId, Level, Message)
