@@ -86,7 +86,7 @@ For example:
 ```lua
 local App = Journal.new("App")
 
-App:atSuccess("Player purchase success")
+App:atSuccess("Player purchase success") --> [App] :: yay -> Player purchase success.
 -- Again It's like atLog, but atSuccess can be used to log
 -- a successful attempt at stuff.
 ```
