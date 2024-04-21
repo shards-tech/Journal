@@ -11,12 +11,12 @@ Journal = "shards-tech/journal@0.1.0"
 Simple use of case in Knit:
 
 ```lua
-local MyService = Knit.CreateService({
-    Name = "MyService",
-    Reporter = Journal.new("MyService")
+local PlayerService = Knit.CreateService({
+    Name = "PlayerService",
+    Reporter = Journal.new("Player")
 })
 
-function MyService:KnitInit()
+function PlayerService:KnitInit()
     local Reporter = self.Journal :: typeof(Journal.new())
     local GreetCtx = Reporter:useContext("greet")
 
@@ -31,9 +31,9 @@ Types:
 
 ```lua
 type Journal = {
-    JournalId: string, -- The placeholder.
-    Schema: string,
-    Context: string?,
+    JournalId: string?, -- The placeholder. Default: Journal
+    Schema: string?, -- The Message Schema. Default [%s] :: %s -> %s
+    Context: string?, -- Journal Context.
     State: boolean, -- State of the Journal
 }
 ```

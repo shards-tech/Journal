@@ -3,9 +3,9 @@ local DEFAULT_SCHEMA = "[%s] :: %s -> %s"
 
 -- Types --
 type Journal = {
-    JournalId: string, -- The placeholder.
-    Schema: string,
-    Context: string?,
+    JournalId: string?, -- The placeholder. Default: Journal
+    Schema: string?, -- The Message Schema. Default [%s] :: %s -> %s
+    Context: string?, -- Journal Context.
     State: boolean, -- State of the Journal
 }
 
@@ -25,7 +25,7 @@ local function FormatMessage(JournalId: string, LogLevel: string, Message: strin
         Level = string.format("%s(%s)", LogLevel, string.lower(Context))
     end
 
-    local Formed = string.format(Schema, JournalId, Level, Message)
+    local Formed = string.format(Schema or DEFAULT_SCHEMA, JournalId, Level or LogLevel, Message)
 
     return Formed
 end
@@ -59,8 +59,9 @@ function Journal.new(JournalId: string?, Schema: string?)
     local self = setmetatable({}, Journal)
 
     self.JournalId = JournalId or "Journal"
-    self.Schema = Schema or Journal.Schema
+    self.Schema = Schema
     self.State = true
+    self.Context = nil
 
     return self
 end
@@ -215,22 +216,6 @@ function Journal:atFatal(Message: string)
 end
 
 --[=[
-    Use context
-
-    ---
-    Example:
-
-    ```lua
-    local App = Journal.new("App")
-
-    local HttpCtx = App.useContext("http")
-
-    HttpCtx:atLog("Trying to fetch api data.")
-    --> [App] :: log(http) -> Trying to fetch api data.
-    ```
-]=]
-
---[=[
     Use context to be more specific.
 
     ---
@@ -247,10 +232,14 @@ end
     ```
 ]=]
 function Journal:useContext(Context: string)
-    local withContext = setmetatable({}, self)
+    assert(typeof(Context) == "string", "Context must be a lowercase word.")
+    local withContext = setmetatable({}, Journal)
 
-    withContext.useOf.Context = string.lower(Context)
-
+    withContext.JournalId = self.JournalId
+    withContext.Schema = self.Schema
+    withContext.State = self.State
+    withContext.Context = Context
+    
     return withContext
 end
 
@@ -272,5 +261,13 @@ end
 function Journal:setState(Trigger: boolean)
     self.State = Trigger
 end
+
+local App = Journal.new("App")
+App:setState(false)
+
+App:atLog("Test")
+App:useContext("Http"):atLog("Lmao.")
+App:atLog("Hello")
+
 
 return Journal
