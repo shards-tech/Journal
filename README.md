@@ -115,8 +115,9 @@ For example:
 local App = Journal.new("Error")
 local AssetsCtx = App:useContext("assets")
 
-App:atError("Failed to load experience sounds as is invalid!", "assets")
---> [App] :: error(assets) -> Failed to load experience sounds as is invalid! <traceback>
+AssetsCtx:atError("Failed to load experience sounds as is invalid!")
+--> [App] :: error(assets) -> Failed to load experience sounds as is invalid!
+--> <traceback>
 ```
 
 8. Using `Journal:atFatal(Message: string)`
@@ -130,7 +131,8 @@ local DataLoaderCtx = App:useContext("data")
 -- Give a fatal message cause of datastore cannot load
 -- Causing players not saving any data.
 DataLoaderCtx:atFatal("Failed to load datastores.")
---> [App] :: fatal(data) -> Failed to load datastores. <traceback>
+--> [App] :: fatal(data) -> Failed to load datastores. 
+--> <traceback>
 ```
 
 9. Using `Journal:useContext(Context: string)` returns `self`

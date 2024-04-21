@@ -184,7 +184,8 @@ function Journal:atError(Message: string)
     if self.State then
         local Formed = FormatMessage(self.JournalId, "error", Message, self.Schema, self.Context)
 
-        error(Formed, 2)
+	warn(Formed)
+        error(Message, 2)
     end
 end
 
@@ -211,7 +212,8 @@ function Journal:atFatal(Message: string)
     if self.State then
         local Formed = FormatMessage(self.JournalId, "error", Message, self.Schema, self.Context)
 
-        error(Formed, 2)
+	warn(Formed)
+        error(Message, 2)
     end
 end
 
