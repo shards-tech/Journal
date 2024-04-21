@@ -38,6 +38,8 @@ end
     Formatted using JournalId or Name, LogLevel, and Message.
 ]=]
 function Journal.setGlobalSchema(Schema: string)
+    assert(typeof(JournalId) == "string", "Schema must be a string.")
+
     Journal.Schema = Schema    
 end
 
@@ -54,8 +56,6 @@ end
     ```
 ]=]
 function Journal.new(JournalId: string?, Schema: string?)
-    assert(typeof(JournalId) == "string", "JournalId must be a string.")
-
     local self = setmetatable({}, Journal)
 
     self.JournalId = JournalId or "Journal"
