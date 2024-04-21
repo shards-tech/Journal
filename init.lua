@@ -262,12 +262,4 @@ function Journal:setState(Trigger: boolean)
     self.State = Trigger
 end
 
-local App = Journal.new("App")
-App:setState(false)
-
-App:atLog("Test")
-App:useContext("Http"):atLog("Lmao.")
-App:atLog("Hello")
-
-
 return Journal
