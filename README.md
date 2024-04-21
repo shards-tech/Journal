@@ -5,7 +5,7 @@ Logging makes easy and efficient!
 Install using wally: 
 
 ```toml
-Journal = "shards-tech/journal@0.1.0"
+Journal = "shards-tech/journal@0.6.0"
 ```
 
 Simple use of case in Knit:
