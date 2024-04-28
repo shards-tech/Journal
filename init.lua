@@ -19,15 +19,15 @@ Journal.__index = Journal
 Journal.Schema = DEFAULT_SCHEMA
 
 local function FormatMessage(JournalId: string, LogLevel: string, Message: string, Schema: string, Context: string?)
-    local Level: string = nil
+    local useSchema = Schema or DEFAULT_SCHEMA
 
-    if Context ~= nil and typeof(Context) == "string" then
-        Level = string.format("%s(%s)", LogLevel, string.lower(Context))
+    if Context ~= nil and type(Context) == "string" then
+        local Level = `{LogLevel}{string.lower(Context)}`
+        return string.format(useSchema, JournalId, Level, Message)
+    
+    else
+        return string.format(useSchema, JournalId, LogLevel, Message)
     end
-
-    local Formed = string.format(Schema or DEFAULT_SCHEMA, JournalId, Level or LogLevel, Message)
-
-    return Formed
 end
 
 --[=[
@@ -38,7 +38,7 @@ end
     Formatted using JournalId or Name, LogLevel, and Message.
 ]=]
 function Journal.setGlobalSchema(Schema: string)
-    assert(typeof(JournalId) == "string", "Schema must be a string.")
+    assert(type(Schema) == "string", "Schema must be a string.")
 
     Journal.Schema = Schema    
 end
@@ -84,7 +84,7 @@ end
     ```
 ]=]
 function Journal:atDebug(Message: string)
-    assert(typeof(Message) == "string", "Message must be a string!")    
+    assert(type(Message) == "string", "Message must be a string!")    
 
     if self.State then
         local Formed = FormatMessage(self.JournalId, "debug", Message, self.Schema, self.Context)
@@ -107,7 +107,7 @@ end
     ```
 ]=]
 function Journal:atLog(Message: string)
-    assert(typeof(Message) == "string", "Message must be a string!")    
+    assert(type(Message) == "string", "Message must be a string!")    
 
     if self.State then
         local Formed = FormatMessage(self.JournalId, "log", Message, self.Schema, self.Context)
@@ -130,7 +130,7 @@ end
     ```
 ]=]
 function Journal:atSuccess(Message: string)
-    assert(typeof(Message) == "string", "Message must be a string!")    
+    assert(type(Message) == "string", "Message must be a string!")    
 
     if self.State then
         local Formed = FormatMessage(self.JournalId, "yay", Message, self.Schema, self.Context)
@@ -154,7 +154,7 @@ end
     ```
 ]=]
 function Journal:atWarn(Message: string)
-    assert(typeof(Message) == "string", "Message must be a string!")    
+    assert(type(Message) == "string", "Message must be a string!")    
 
     if self.State then
         local Formed = FormatMessage(self.JournalId, "warn", Message, self.Schema, self.Context)
@@ -179,7 +179,7 @@ end
     ```
 ]=]
 function Journal:atError(Message: string)
-    assert(typeof(Message) == "string", "Message must be a string!")    
+    assert(type(Message) == "string", "Message must be a string!")    
 
     if self.State then
         local Formed = FormatMessage(self.JournalId, "error", Message, self.Schema, self.Context)
@@ -207,7 +207,7 @@ end
     ```
 ]=]
 function Journal:atFatal(Message: string)
-    assert(typeof(Message) == "string", "Message must be a string!")    
+    assert(type(Message) == "string", "Message must be a string!")    
 
     if self.State then
         local Formed = FormatMessage(self.JournalId, "error", Message, self.Schema, self.Context)
@@ -234,7 +234,7 @@ end
     ```
 ]=]
 function Journal:useContext(Context: string)
-    assert(typeof(Context) == "string", "Context must be a lowercase word.")
+    assert(type(Context) == "string", "Context must be a lowercase word.")
     local withContext = setmetatable({}, Journal)
 
     withContext.JournalId = self.JournalId
