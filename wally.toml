@@ -3,7 +3,7 @@ name = "shards-tech/journal"
 description = "Logging makes easy and efficient! https://github.com/shards-tech/journal.git"
 authors = ["Bloomy <dequeyuri@gmail.com>"]
 
-version = "0.1.6"
+version = "0.1.61"
 registry = "https://github.com/UpliftGames/wally-index"
 realm = "shared"
 
